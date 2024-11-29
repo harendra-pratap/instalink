@@ -1,0 +1,25 @@
+<h1>Chat with <%= @receiver.username %></h1>
+
+<div id="chat-messages">
+  <% @chats.each do |chat| %>
+    <div class="chat-message <%= chat.sender == current_user ? 'sent' : 'received' %>">
+      <strong><%= chat.sender == current_user ? 'You' : chat.sender.username %>:</strong>
+      <p><%= chat.original_message %></p>
+      <% if chat.sender == current_user %>
+        <div class="chat-actions">
+          <%= link_to "Delete", chat_path(chat), method: :delete, data: { confirm: "Are you sure?" } %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<%= form_with url: chats_path, method: :post, local: true do |f| %>
+  <div>
+    <%= f.hidden_field :receiver_id, value: @receiver.id %>
+    <%= f.text_area :original_message, placeholder: "Type your message here..." %>
+    <%= f.hidden_field :translated_message, value: '' %>
+    <%= f.hidden_field :language, value: current_user.device_language %>
+  </div>
+  <%= f.submit "Send" %>
+<% end %>

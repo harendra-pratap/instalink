@@ -1,19 +1,43 @@
-<div class="container">
+<h1><%= @post.content %></h1>
 
-	<h1><%= @post.content %></h1>
+<% if @post.images.attached? %>
+  <h2>Images:</h2>
+  <div>
+    <% @post.images.each do |image| %>
+      <%= image_tag image, size: "300x300" %>
+    <% end %>
+  </div>
+<% else %>
+  <p>No images attached.</p>
+<% end %>
 
-	<% if @post.images.attached? %>
-	  <h2>Images:</h2>
-	  <div>
-	    <% @post.images.each do |image| %>
-	      <%= image_tag image, size: "300x300" %> <!-- You can adjust size as needed -->
-	    <% end %>
-	  </div>
-	<% else %>
-	  <p>No images attached.</p>
-	<% end %>
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>
 
-	<%= link_to 'Edit', edit_post_path(@post) %> |
-	<%= link_to 'Back', posts_path %>
+<h2>Comments</h2>
 
-</div>
+<% if @comments.any? %>
+  <ul>
+    <% @comments.each do |comment| %>
+      <li>
+        <p><strong><%= comment.user.username %></strong>: <%= comment.content %></p>
+        <% if comment.user == current_user %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No comments yet. Be the first to comment!</p>
+<% end %>
+
+<h3>Leave a Comment</h3>
+<%= form_with(model: [@post, @comment], local: true) do |form| %>
+  <div>
+    <%= form.label :content, "Your Comment:" %>
+    <%= form.text_area :content, rows: 3 %>
+  </div>
+  <div>
+    <%= form.submit "Post Comment" %>
+  </div>
+<% end %>
+

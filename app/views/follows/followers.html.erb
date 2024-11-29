@@ -1,0 +1,10 @@
+<h2>Your Followers</h2>
+<% if @followers.any? %>
+  <ul>
+    <% @followers.each do |user| %>
+      <li><%= user.username %> - <%= user.first_name %> <%= user.last_name %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You have no followers yet.</p>
+<% end %>

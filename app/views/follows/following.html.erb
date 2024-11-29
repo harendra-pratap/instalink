@@ -1,0 +1,10 @@
+<h2>Users You Are Following</h2>
+<% if @following.any? %>
+  <ul>
+    <% @following.each do |user| %>
+      <li><%= user.username %> - <%= user.first_name %> <%= user.last_name %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You are not following anyone yet.</p>
+<% end %>

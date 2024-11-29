@@ -1,34 +1,69 @@
-<div class="container">
-  <h1>Instalink</h1>
-
-  <% @posts.each do |post| %>
-    <div class="post-card">
-      <div class="post-header">
-        <h4><%= post.user.first_name %></h4>
-        
-        <% if post.user == current_user %>
-          <%= link_to 'Edit', edit_post_path(post), class: 'edit-link' %>
+<h1 class="header">
+  Instalink
+  <%= link_to notifications_path, class: 'notification-button' do %>
+    <%= image_tag 'notification.png', alt: 'Notifications', size: "30x30", class: 'notification-icon' %>
+  <% end %>
+  <%= link_to recent_chats_path, class: 'chat-button' do %>
+    <%= image_tag 'chat.png', alt: 'Chat', size: "30x30", class: 'chat-icon' %>
+  <% end %>
+</h1>
+<% @posts.each do |post| %>
+  <div class="post-card">
+    <div class="post-header">
+      <% if post.user.profile_picture.attached? %>
+        <%= image_tag post.user.profile_picture, size: "40x40", class: "profile-picture" %>
+      <% else %>
+        <%= image_tag "profile_picture_default.jpeg", size: "40x40", class: "profile-picture" %>
+      <% end %>
+      <div class="username-location">
+        <h4 class="username">
+          <%= link_to post.user.username, user_path(post.user) %>
+        </h4>
+        <% if post.location.present? %>
+          <p class="post-location"><%= post.location %></p>
         <% end %>
       </div>
-
-      <% if post.images.attached? %>
-        <div class="post-images">
-          <% post.images.each do |image| %>
-            <%= image_tag image, size: "300x300", class: "post-image" %>
-          <% end %>
-        </div>
-      <% else %>
-        <p>No images attached.</p>
+      <% if post.user == current_user %>
+        <%= link_to 'Edit', edit_post_path(post), class: 'edit-link' %>
       <% end %>
-
-      <p><%= post.content %></p>
     </div>
-  <% end %>
-</div>
+
+    <% if post.images.attached? %>
+      <div class="post-images">
+        <% post.images.each do |image| %>
+          <%= image_tag image, size: "300x300", class: "post-image" %>
+        <% end %>
+      </div>
+    <% else %>
+      <p>No images attached.</p>
+    <% end %>
+
+    <div class="comments-section">
+      <%= link_to image_tag('comment.jpg', size: "24x24", alt: "Comments", class: "comment-icon"), post_path(post) %>
+      <% if post.comments.any? %>
+        <% last_comment = post.comments.last %>
+        <p class="last-comment">
+          <strong><%= last_comment.user.username %></strong>: <%= last_comment.content %>
+        </p>
+      <% end %>
+    </div>
+      <div>
+      <p><b><%= post.user.username %>:</b> <%= post.content %></p>
+    </div>
+      <p><%= post.created_at.strftime("%B %d, %Y") %></p>
+  </div>
+<% end %>
+
 
 <%= link_to 'New Post', new_post_path, class: 'new-post-button' %>
 
 <div class="user-icon">
-  <%= link_to image_tag('user_icon.png', alt: 'User Icon', class: 'icon'), profile_path(current_user) %>
+  <%= link_to image_tag('user_icon.png', alt: 'User Icon', class: 'icon'), user_path(current_user) %>
 </div>
 
+<div class="search-section">
+  <%= form_with url: search_users_path, method: :get, local: true, class: 'search-form' do %>
+    <%= text_field_tag :query, params[:query], placeholder: "Search users...", class: 'search-input' %>
+    <%= submit_tag "Search", class: 'search-button' %>
+  <% end %>
+</div>

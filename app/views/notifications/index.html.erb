@@ -1,0 +1,26 @@
+<h1>Notifications</h1>
+
+<% if @notifications.any? %>
+  <ul>
+    <% @notifications.each do |notification| %>
+      <li>
+        <p>
+          <strong>From:</strong> <%= notification.sender.username %><br>
+          <strong>Message:</strong> <%= notification.message %><br>
+          <strong>Received at:</strong> <%= notification.created_at.strftime('%Y-%m-%d %H:%M:%S') %>
+        </p>
+
+        <% if notification.message.include?('follow request') %>
+          <%= button_to 'Accept',
+                        accept_follow_path(follower_id: notification.sender_id),
+                        method: :post,
+                        class: 'btn btn-success',
+                        data: { confirm: 'Are you sure you want to accept this follow request?' } %>
+        <% end %>
+      </li>
+      <hr>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No notifications found.</p>
+<% end %>

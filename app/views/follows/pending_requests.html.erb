@@ -1,0 +1,11 @@
+<h2>Pending Follow Requests</h2>
+<% if @pending_requests.any? %>
+  <ul>
+    <% @pending_requests.each do |request| %>
+      <li><%= request.follower.username %> has sent you a follow request.</li>
+      <%= link_to 'Accept', accept_follow_path(follower_id: request.follower.id), method: :patch %>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No pending follow requests.</p>
+<% end %>

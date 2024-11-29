@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_27_085329) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_28_185537) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,6 +71,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_27_085329) do
     t.bigint "followee_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status", default: "pending", null: false
     t.index ["followee_id"], name: "index_follows_on_followee_id"
     t.index ["follower_id"], name: "index_follows_on_follower_id"
   end
@@ -84,6 +85,17 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_27_085329) do
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "receiver_id", null: false
+    t.bigint "sender_id", null: false
+    t.text "message"
+    t.boolean "read", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["receiver_id"], name: "index_notifications_on_receiver_id"
+    t.index ["sender_id"], name: "index_notifications_on_sender_id"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.text "content"
     t.string "image_path"
@@ -93,6 +105,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_27_085329) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "latitude"
+    t.float "longitude"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -113,6 +127,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_27_085329) do
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
+    t.string "username"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -127,5 +142,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_27_085329) do
   add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
+  add_foreign_key "notifications", "users", column: "receiver_id"
+  add_foreign_key "notifications", "users", column: "sender_id"
   add_foreign_key "posts", "users"
 end

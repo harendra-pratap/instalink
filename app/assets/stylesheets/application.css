@@ -35,6 +35,33 @@ body {
   margin-top: 20px;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px; 
+}
+
+.chat-button {
+  display: inline-block;
+}
+
+.chat-button:hover {
+  background-color: #45a049;
+  color: white;
+}
+
+.chat-icon {
+  width: 30px; 
+  height: 30px; 
+  cursor: pointer; 
+  transition: opacity 0.3s ease; 
+}
+
+.chat-icon:hover {
+  opacity: 0.8; 
+}
+
 form {
   width: 100%;
   margin: 0 auto;
@@ -89,6 +116,7 @@ h1, h2, h3, h4, p {
   max-width: 300px;
   height: auto;
   border-radius: 8px;
+  justify-content: space-between;
 }
 
 .edit-link, .view-link {
@@ -114,27 +142,10 @@ h1, h2, h3, h4, p {
   background-color: #45a049;
 }
 
-.post-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
 .post-header h4 {
   margin: 0;
   font-size: 20px;
   font-weight: bold;
-}
-
-.edit-link {
-  color: #4CAF50;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-.edit-link:hover {
-  text-decoration: underline;
 }
 
 .new-post-button {
@@ -173,4 +184,120 @@ h1, h2, h3, h4, p {
 
 .user-icon .icon:hover {
   opacity: 0.8;
+}
+
+.post-images img {
+  margin-top: 10px;
+}
+
+.comment-icon {
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.last-comment {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.no-comments {
+  color: #888;
+  font-size: 14px;
+}
+
+
+.post-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.profile-picture {
+  border-radius: 20%;
+  margin-right: 0px;
+}
+
+.username-location {
+  display: flex;
+  flex-direction: column;
+}
+
+.username {
+  font-size: 18px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.post-location {
+  font-size: 14px;
+  color: #555;
+  margin: 2px 0 0 0;
+}
+
+.edit-link {
+  margin-left: auto;
+  color: #4CAF50;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 5px 10px;
+  border: 1px solid #4CAF50;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.edit-link:hover {
+  text-decoration: underline;
+  background-color: #e6ffe6;
+}
+
+/*I have write  below css for search button*/
+
+.search-section {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+}
+
+.search-form {
+  display: flex;
+}
+
+.search-input {
+  padding: 8px;
+  margin-right: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.search-button {
+  padding: 8px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #45a049;
+}
+
+
+
+/*This is for notification */
+
+.notification-button {
+  margin-left: 15px;
+}
+
+.notification-icon {
+  vertical-align: middle;
 }

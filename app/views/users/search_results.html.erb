@@ -1,0 +1,14 @@
+<h1>Search Results</h1>
+
+<% if @users.any? %>
+  <ul>
+    <% @users.each do |user| %>
+      <li>
+        <%= link_to user.username, user_path(user) %> 
+        <%= button_to 'Follow', follows_path(followee_id: user.id), method: :post, class: 'btn btn-primary' unless current_user == user %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No users found matching your search.</p>
+<% end %>

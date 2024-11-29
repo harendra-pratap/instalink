@@ -1,0 +1,13 @@
+<h1>Recent Chats</h1>
+
+<ul>
+  <% @recent_chats.each do |chat| %>
+    <% other_user = chat.receiver == current_user ? chat.sender : chat.receiver %>
+    <li>
+      <a href="<%= conversation_path(other_user.id) %>">
+        Chat with <%= other_user.username %>
+      </a>
+      <p>Last message: <%= chat.original_message.truncate(50) %></p>
+    </li>
+  <% end %>
+</ul>
