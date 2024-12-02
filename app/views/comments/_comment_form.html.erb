@@ -1,0 +1,8 @@
+<%= form_with(model: [@post, comment], local: true, method: :patch) do |form| %>
+  <div>
+    <%= form.text_area :content, value: comment.content, rows: 1, style: "width: 300px;" %>
+  </div>
+  <div>
+    <%= form.submit "Update Comment" %>
+  </div>
+<% end %>

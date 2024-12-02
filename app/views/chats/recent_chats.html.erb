@@ -1,13 +1,20 @@
 <h1>Recent Chats</h1>
 
-<ul>
+<ul style="list-style-type: none; padding: 0;">
   <% @recent_chats.each do |chat| %>
     <% other_user = chat.receiver == current_user ? chat.sender : chat.receiver %>
-    <li>
-      <a href="<%= conversation_path(other_user.id) %>">
-        Chat with <%= other_user.username %>
-      </a>
-      <p>Last message: <%= chat.original_message.truncate(50) %></p>
+    <li style="display: flex; align-items: center; margin-bottom: 20px;">
+      <% if other_user.profile_picture.attached? %>
+        <%= image_tag other_user.profile_picture, size: "40x40", style: "border-radius: 50%; margin-right: 10px;" %>
+      <% else %>
+        <%= image_tag "profile_picture_default.jpeg", size: "40x40", style: "border-radius: 50%; margin-right: 10px;" %>
+      <% end %>
+      <div>
+        <a href="<%= conversation_path(other_user.id) %>" style="text-decoration: none; color: inherit;">
+          <p style="margin: 0; font-size: 1.2rem; font-weight: bold;"><%= other_user.username %></p>
+        </a>
+        <p style="margin: 5px 0 0; font-size: 1rem; color: gray;">Last message: <%= chat.original_message.truncate(50) %></p>
+      </div>
     </li>
   <% end %>
 </ul>

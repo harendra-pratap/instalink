@@ -3,9 +3,14 @@
 <% if @users.any? %>
   <ul>
     <% @users.each do |user| %>
-      <li>
-        <%= link_to user.username, user_path(user) %> 
-        <%= button_to 'Follow', follows_path(followee_id: user.id), method: :post, class: 'btn btn-primary' unless current_user == user %>
+      <li style="display: flex; align-items: center;">
+        <% if user.profile_picture.attached? %>
+          <%= image_tag user.profile_picture, size: "40x40", style: "border-radius: 50%; margin-right: 10px;" %>
+        <% else %>
+          <%= image_tag "profile_picture_default.jpeg", size: "40x40", style: "border-radius: 50%; margin-right: 10px;" %>
+        <% end %>
+        <%= link_to user.username, user_path(user), style: 'text-decoration: none; font-size: 16px;' %> 
+        <%= button_to 'Follow', follows_path(followee_id: user.id), method: :post, class: 'btn btn-primary', style: 'margin-left: 10px; font-size: 16px; padding: 5px 10px;' unless current_user == user %>
       </li>
     <% end %>
   </ul>

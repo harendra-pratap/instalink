@@ -256,18 +256,20 @@ h1, h2, h3, h4, p {
 
 .search-section {
   position: fixed;
-  bottom: 10px;
-  left: 10px;
+  top: 10px;
+  right: 10px;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 10px;
   border-radius: 5px;
   z-index: 1000;
   display: flex;
   align-items: center;
+  width: auto;
 }
 
 .search-form {
   display: flex;
+  margin: 0;
 }
 
 .search-input {

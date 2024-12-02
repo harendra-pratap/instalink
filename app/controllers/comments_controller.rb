@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   before_action :set_post
-  before_action :set_comment, only: [:show, :update, :destroy]
+  before_action :set_comment, only: [:show, :edit, :update, :destroy]
 
   def index
     @comments = @post.comments.includes(:user).order(created_at: :desc)
@@ -19,6 +19,10 @@ class CommentsController < ApplicationController
       flash[:alert] = @comment.errors.full_messages.to_sentence
       redirect_to post_path(@post)
     end
+  end
+
+  def edit
+    @comment
   end
 
   def update

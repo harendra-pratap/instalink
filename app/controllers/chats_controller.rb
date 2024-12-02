@@ -22,8 +22,8 @@ class ChatsController < ApplicationController
   def recent_chats
     @recent_chats = Chat.where(sender: current_user)
                         .or(Chat.where(receiver: current_user))
-                        .select('DISTINCT ON (receiver_id) *')
-                        .order('receiver_id, created_at DESC')
+                        .select(Arel.sql('DISTINCT ON (LEAST(sender_id, receiver_id), GREATEST(sender_id, receiver_id)) *'))
+                        .order(Arel.sql('LEAST(sender_id, receiver_id), GREATEST(sender_id, receiver_id), created_at DESC'))
     render :recent_chats
   end
 
@@ -47,7 +47,7 @@ class ChatsController < ApplicationController
   private
 
   def chat_params
-    params.require(:chat).permit(:original_message, :translated_message, :language, :receiver_id)
+    params.permit(:original_message, :translated_message, :language, :receiver_id)
   end
 
   def set_chat

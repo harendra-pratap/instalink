@@ -68,3 +68,4 @@ gem 'byebug'
 gem 'httparty'
 gem 'geocoder'
 gem "database_cleaner-active_record", "~> 2.2"
+

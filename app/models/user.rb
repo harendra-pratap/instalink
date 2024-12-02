@@ -21,4 +21,12 @@ class User < ApplicationRecord
   validates :email, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, presence: true, length: { minimum: 6 }
   validates :device_language, inclusion: { in: %w[en es fr de it], message: "%{value} is not a valid language" }
+
+  def accepted_followers_count
+    followers.where(follows: { status: 'accepted' }).count
+  end
+
+  def accepted_following_count
+    following.where(follows: { status: 'accepted' }).count
+  end
 end

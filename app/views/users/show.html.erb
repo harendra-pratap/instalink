@@ -1,13 +1,21 @@
-<h1>Welcome, <%= @user.first_name %>!</h1>
+<% if @is_current_user %>
+  <h1>Welcome, <%= @user.first_name %>!</h1>
+<% end %>
 <p><strong>First Name:</strong> <%= @user.first_name %></p>
 <p><strong>Last Name:</strong> <%= @user.last_name %></p>
-<p><strong>Email:</strong> <%= @user.email %></p>
-<p><strong>Phone Number:</strong> <%= @user.phone_number %></p>
-<p><strong>Device Language:</strong> <%= @user.device_language %></p>
+<% if @is_current_user %>
+  <p><strong>Email:</strong> <%= @user.email %></p>
+  <p><strong>Phone Number:</strong> <%= @user.phone_number %></p>
+  <p><strong>Device Language:</strong> <%= @user.device_language %></p>
+<% end %>
 <p><strong>Private Account:</strong> <%= @user.is_private ? "Yes" : "No" %></p>
-
-<p><strong>Followers:</strong> <%= @followers_count %></p>
-<p><strong>Following:</strong> <%= @following_count %></p>
+<p><strong>Posts:</strong> <%= @user&.posts&.count %></p>
+<p><strong>Followers:</strong> 
+  <%= link_to @user.accepted_followers_count, followers_follows_path, class: 'followers-link' %>
+</p>
+<p><strong>Following:</strong> 
+  <%= link_to @user.accepted_following_count, following_follows_path, class: 'following-link' %>
+</p>
 
 <% if @is_current_user %>
 	<%= link_to 'Edit Profile', edit_user_registration_path %> | 

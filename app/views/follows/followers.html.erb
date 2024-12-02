@@ -1,8 +1,11 @@
 <h2>Your Followers</h2>
-<% if @followers.any? %>
+<% debugger %>
+<% if @followers&.any? %>
   <ul>
     <% @followers.each do |user| %>
-      <li><%= user.username %> - <%= user.first_name %> <%= user.last_name %></li>
+      <% debugger %>
+
+      <li><%= user.username %></li>
     <% end %>
   </ul>
 <% else %>

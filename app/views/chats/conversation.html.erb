@@ -1,13 +1,17 @@
-<h1>Chat with <%= @receiver.username %></h1>
+<h1><%= @receiver.username %></h1>
 
-<div id="chat-messages">
+<div id="chat-messages" style="display: flex; flex-direction: column; gap: 10px;">
   <% @chats.each do |chat| %>
-    <div class="chat-message <%= chat.sender == current_user ? 'sent' : 'received' %>">
-      <strong><%= chat.sender == current_user ? 'You' : chat.sender.username %>:</strong>
-      <p><%= chat.original_message %></p>
+    <div class="chat-message <%= chat.sender == current_user ? 'sent' : 'received' %>" style="display: flex; flex-direction: <%= chat.sender == current_user ? 'row-reverse' : 'row' %>; align-items: flex-start; justify-content: flex-start;">
+      <div style="max-width: 70%; padding: 10px; border-radius: 10px; background-color: <%= chat.sender == current_user ? '#d1f1d1' : '#f0f0f0' %>; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+        <strong style="display: block; margin-bottom: 5px;"><%= chat.sender == current_user ? 'You' : chat.sender.username %>:</strong>
+        <p style="margin: 0; word-wrap: break-word;"><%= chat.original_message %></p>
+      </div>
+      
       <% if chat.sender == current_user %>
-        <div class="chat-actions">
-          <%= link_to "Delete", chat_path(chat), method: :delete, data: { confirm: "Are you sure?" } %>
+        <!-- The Delete action is now placed below the chat message -->
+        <div class="chat-actions" style="text-align: right; margin-top: 5px; padding-right: 10px;">
+          <%= button_to "Delete", chat_path(chat), method: :delete, data: { confirm: "Are you sure?" }, style: "color: red; background: none; border: none; text-decoration: none; font-size: 14px; cursor: pointer;" %>
         </div>
       <% end %>
     </div>
@@ -15,11 +19,11 @@
 </div>
 
 <%= form_with url: chats_path, method: :post, local: true do |f| %>
-  <div>
+  <div style="display: flex; gap: 10px; align-items: center; margin-top: 20px;">
     <%= f.hidden_field :receiver_id, value: @receiver.id %>
-    <%= f.text_area :original_message, placeholder: "Type your message here..." %>
+    <%= f.text_area :original_message, placeholder: "Type your message here...", style: "width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px;" %>
     <%= f.hidden_field :translated_message, value: '' %>
     <%= f.hidden_field :language, value: current_user.device_language %>
+    <%= f.submit "Send", style: "padding: 10px 20px 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; margin-right: 40px;" %>
   </div>
-  <%= f.submit "Send" %>
 <% end %>
