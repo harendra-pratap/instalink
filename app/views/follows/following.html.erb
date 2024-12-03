@@ -1,4 +1,4 @@
-<h2>Users You Are Following</h2>
+<h2>Followings</h2>
 <% if @following&.any? %>
   <ul>
     <% @following.each do |user| %>
@@ -6,5 +6,5 @@
     <% end %>
   </ul>
 <% else %>
-  <p>You are not following anyone yet.</p>
+  <p>Not following anyone.</p>
 <% end %>

@@ -50,14 +50,18 @@ class FollowsController < ApplicationController
   end
 
   def followers
-    # @followers = current_user.followers
-    @followers = current_user.follower_relationships.where(status: 'accepted')
+    @followers = current_user.follower_relationships
+                             .where(status: 'accepted')
+                             .includes(:follower)
+                             .map(&:follower)  
     render 'followers'
   end
 
   def following
-    #@following = current_user.following
-    @following = current_user.followee_relationships.where(status: 'accepted')
+    @following = current_user.followee_relationships
+                           .where(status: 'accepted')
+                           .includes(:followee)
+                           .map(&:followee)
     render 'following'
   end
 

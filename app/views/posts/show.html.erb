@@ -1,18 +1,17 @@
-<h1><%= @post.content %></h1>
+<h1><%= @post.user.username %></h1>
+<p><%= @post.location %></p>
 
 <% if @post.images.attached? %>
-  <h2>Images:</h2>
-  <div>
+  <div style="text-align: center;">
     <% @post.images.each do |image| %>
-      <%= image_tag image, size: "300x300" %>
+      <%= image_tag image, size: "300x300", style: "display: inline-block; margin: 10px;" %>
     <% end %>
   </div>
 <% else %>
   <p>No images attached.</p>
 <% end %>
 
-<%= link_to 'Edit', edit_post_path(@post) %> |
-<%= link_to 'Back', posts_path %>
+<h3><small><%= @post.content %></small></h3>
 
 <h2>Comments</h2>
 
@@ -20,8 +19,19 @@
   <ul>
     <% @comments.each do |comment| %>
       <li>
-        <p><strong><%= comment.user.username %></strong>: <%= comment.content %></p>
+        <span><strong><%= comment.user.username %></strong>:</span>
+        <span><%= comment.content %></span>
+
         <% if comment.user == current_user %>
+          <span>
+            <%= form_with(model: [@post, comment], local: true, method: :patch) do |form| %>
+              <%= form.text_area :content, rows: 1, style: "width: 300px; display: inline;" %>
+              <%= form.submit "Update Comment", style: "display: inline;" %>
+            <% end %>
+          </span>
+          <span>
+            <%= button_to 'Delete', post_comment_path(@post, comment), method: :delete, data: { confirm: "Are you sure?" }, style: "display: inline;" %>
+          </span>
         <% end %>
       </li>
     <% end %>
@@ -40,4 +50,3 @@
     <%= form.submit "Post Comment" %>
   </div>
 <% end %>
-
